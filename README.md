@@ -1,6 +1,6 @@
 # Gst-dsobjectsmask
 
-This plugin masks objects detected by NVIDIA nvinfer plugin. Fast and smooth since all the masking processes are done with GPU.
+This plugin masks objects detected by NVIDIA nvinfer plugin. Fast and smooth since all the masking processes are done with GPU. Originally forked from [seieric/gst-dsobjectsmosaic](https://github.com/seieric/gst-dsobjectsmosaic).
 
 Must be a better masking solution than masking with nvdsosd.
 ![](https://raw.githubusercontent.com/seieric/gst-dsobjectsmask/main/gst-dsobjectsmask.png "")
@@ -38,5 +38,6 @@ sudo make -j$(nproc) install
 This is a brief instruction to test this plugin after installtion.
 1. Download [NVIDIA-AI-IOT/deepstream_tao_apps](https://github.com/NVIDIA-AI-IOT/deepstream_tao_apps) to ```/opt/nvidia/deepstream/deepstream-6.1/sources/apps```.
 2. Download required models for deepstream_tao_apps. Refer to [the documentation](https://github.com/NVIDIA-AI-IOT/deepstream_tao_apps#2-download-models).
-3. Run the sample script ```samples/peoplesegnet_test.sh```.
-4. You will get the ```peoplesegnet_test.mp4``` in your curennt directory.
+3. Build custom parser in ```/opt/nvidia/deepstream/deepstream-6.1/sources/apps/deepstream_tao_apps/post_processor```.
+4. Run the sample script ```samples/peoplesegnet_test.sh```.
+5. You will get the ```peoplesegnet_test.mp4``` in your curennt directory.

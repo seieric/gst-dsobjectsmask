@@ -42,7 +42,6 @@ enum
   PROP_UNIQUE_ID,
   PROP_GPU_DEVICE_ID,
   PROP_MIN_CONFIDENCE,
-  PROP_MOSAIC_SIZE,
   PROP_CLASS_IDS
 };
 
@@ -69,7 +68,6 @@ enum
 #define DEFAULT_UNIQUE_ID 15
 #define DEFAULT_GPU_ID 0
 #define DEFAULT_MIN_CONFIDENCE 0
-#define DEFAULT_MOSAIC_SIZE 10
 
 #define CHECK_NPP_STATUS(npp_status, error_str)             \
   do                                                        \
@@ -179,12 +177,6 @@ gst_dsom_class_init(GstDsObjectsMaskClass *klass)
                                                       "minimum confidence of objects to be blurred", 0,
                                                       1, DEFAULT_MIN_CONFIDENCE, (GParamFlags)(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
 
-  g_object_class_install_property(gobject_class, PROP_MOSAIC_SIZE,
-                                  g_param_spec_int("mosaic-size",
-                                                   "size of each square of mosaic",
-                                                   "size of each square of mosaic", 10,
-                                                   G_MAXINT, DEFAULT_MOSAIC_SIZE, (GParamFlags)(G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS)));
-
   g_object_class_install_property(gobject_class, PROP_CLASS_IDS,
                                   g_param_spec_string("class-ids",
                                                       "class ids",
@@ -220,7 +212,6 @@ gst_dsom_init(GstDsObjectsMask *dsom)
   /* Initialize all property variables to default values */
   dsom->unique_id = DEFAULT_UNIQUE_ID;
   dsom->gpu_id = DEFAULT_GPU_ID;
-  dsom->mosaic_size = DEFAULT_MOSAIC_SIZE;
   dsom->class_ids = new std::set<uint>;
 
   /* This quark is required to identify NvDsMeta when iterating through
@@ -246,9 +237,6 @@ gst_dsom_set_property(GObject *object, guint prop_id,
     break;
   case PROP_MIN_CONFIDENCE:
     dsom->min_confidence = g_value_get_double(value);
-    break;
-  case PROP_MOSAIC_SIZE:
-    dsom->mosaic_size = g_value_get_int(value);
     break;
   case PROP_CLASS_IDS:
   {
@@ -288,9 +276,6 @@ gst_dsom_get_property(GObject *object, guint prop_id,
     break;
   case PROP_MIN_CONFIDENCE:
     g_value_set_double(value, dsom->min_confidence);
-    break;
-  case PROP_MOSAIC_SIZE:
-    g_value_set_int(value, dsom->mosaic_size);
     break;
   case PROP_CLASS_IDS:
   {

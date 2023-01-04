@@ -434,7 +434,7 @@ gst_dsom_transform_ip(GstBaseTransform *btrans, GstBuffer *inbuf)
          l_frame = l_frame->next)
     {
       frame_meta = (NvDsFrameMeta *)(l_frame->data);
-      /* Skip all the blurring process when no objects are detected. */
+      /* Skip all the masking process when no objects are detected. */
       if (frame_meta->num_obj_meta == 0)
         continue;
 
@@ -460,11 +460,11 @@ gst_dsom_transform_ip(GstBaseTransform *btrans, GstBuffer *inbuf)
            l_obj = l_obj->next)
       {
         obj_meta = (NvDsObjectMeta *)(l_obj->data);
-        /* skip objects without mask */
-        if (obj_meta->mask_params.size <= 0)
+        /* skip objects without mask or with confidence less than standard */
+        if (obj_meta->mask_params.size <= 0 || obj_meta->confidence < dsom->min_confidence)
           continue;
 
-        /* apply blur only for objects with given class ids */
+        /* apply mask only for objects with given class ids */
         auto id_itr = dsom->class_ids->find(obj_meta->class_id);
         if (id_itr == dsom->class_ids->end() || *id_itr != obj_meta->class_id)
           continue;

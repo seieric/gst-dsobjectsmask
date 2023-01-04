@@ -3,17 +3,19 @@
 This plugin masks objects detected by NVIDIA nvinfer plugin. Fast and smooth since all the masking processes are done with GPU.
 
 Must be a better masking solution than masking with nvdsosd.
+![](https://raw.githubusercontent.com/seieric/gst-dsobjectsmask/main/gst-dsobjectsmask.png "")
 
-**Note: This plugin is tested with PeopleSegNet, which is an instance segmentation model. Masking process refers to a object's mask_params of NvDsObjectMeta. Other models (e.g. semantic segmentation models) may not attach mask_params and this wouldn't work as expected.**
+**Note: This plugin is tested with [PeopleSegNet](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplesegnet), which is an instance segmentation model. Masking process refers to a object's mask_params of NvDsObjectMeta. Other models (e.g. semantic segmentation models) may not attach mask_params and this wouldn't work as expected.**
 
 **Note: For Jetson only, not works with dGPU.**
-
-![](https://raw.githubusercontent.com/seieric/gst-dsobjectsmask/main/gst-dsobjectsmask.png "")
 
 ## Features
 - Mask objects with cuda
 - Specify class ids for which blur should be applied
 - Fast and smooth processing
+
+### Sample
+![](https://raw.githubusercontent.com/seieric/gst-dsobjectsmask/main/samples/sample.png "")
 
 ## Gst Properties
 | Property | Meaning | Type and Range |

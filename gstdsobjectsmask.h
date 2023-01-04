@@ -34,7 +34,8 @@
 #if __GNUC__ >= 8
 #pragma GCC diagnostic ignored "-Wclass-memaccess"
 #endif
-#include "opencv2/cudawarping.hpp"
+#include "opencv2/cudaimgproc.hpp"
+#include "opencv2/cudaarithm.hpp"
 #include "opencv2/core/cuda.hpp"
 #pragma GCC diagnostic pop
 
@@ -45,31 +46,32 @@
 #include "nvbufsurface.h"
 #include "gst-nvquery.h"
 #include "gstnvdsmeta.h"
+#include "nvds_mask_utils.h"
 
 /* Package and library details required for plugin_init */
-#define PACKAGE "dsobjectsmosaic"
+#define PACKAGE "dsobjectsmask"
 #define VERSION "1.0"
 #define LICENSE "Proprietary"
 #define DESCRIPTION "objects blurring plugin integrated with DeepStream on Jetson (not on dGPU)"
 #define BINARY_PACKAGE "blurring objects detected by NVIDIA nvinfer plugin"
-#define URL "https://github.com/seieric/gst-dsobjectsmosaic"
+#define URL "https://github.com/seieric/gst-dsobjectsmask"
 
 
 G_BEGIN_DECLS
 /* Standard boilerplate stuff */
-typedef struct _GstDsObjectsMosaic GstDsObjectsMosaic;
-typedef struct _GstDsObjectsMosaicClass GstDsObjectsMosaicClass;
+typedef struct _GstDsObjectsMask GstDsObjectsMask;
+typedef struct _GstDsObjectsMaskClass GstDsObjectsMaskClass;
 
 /* Standard boilerplate stuff */
 #define GST_TYPE_DSOM (gst_dsom_get_type())
-#define GST_DSOM(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_DSOM,GstDsObjectsMosaic))
-#define GST_DSOM_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_DSOM,GstDsObjectsMosaicClass))
-#define GST_DSOM_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), GST_TYPE_DSOM, GstDsObjectsMosaicClass))
+#define GST_DSOM(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_DSOM,GstDsObjectsMask))
+#define GST_DSOM_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_DSOM,GstDsObjectsMaskClass))
+#define GST_DSOM_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), GST_TYPE_DSOM, GstDsObjectsMaskClass))
 #define GST_IS_DSOM(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DSOM))
 #define GST_IS_DSOM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_DSOM))
-#define GST_DSOM_CAST(obj)  ((GstDsObjectsMosaic *)(obj))
+#define GST_DSOM_CAST(obj)  ((GstDsObjectsMask *)(obj))
 
-struct _GstDsObjectsMosaic
+struct _GstDsObjectsMask
 {
   GstBaseTransform base_trans;
 
@@ -106,7 +108,7 @@ struct _GstDsObjectsMosaic
 };
 
 // Boiler plate stuff
-struct _GstDsObjectsMosaicClass
+struct _GstDsObjectsMaskClass
 {
   GstBaseTransformClass parent_class;
 };

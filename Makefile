@@ -28,10 +28,10 @@ CUDA_VER?=11.4
 TARGET_DEVICE = $(shell gcc -dumpmachine | cut -f1 -d -)
 CXX:= g++
 
-SRCS:= gstdsobjectsmosaic.cpp
+SRCS:= gstdsobjectsmask.cpp
 
 INCS:= $(wildcard *.h)
-LIB:=libnvdsgst_dsobjectsmosaic.so
+LIB:=libnvdsgst_dsobjectsmask.so
 
 NVDS_VERSION:=6.1
 
@@ -39,13 +39,18 @@ CFLAGS+= -fPIC -DDS_VERSION=\"6.1.1\" \
 	 -I /usr/local/cuda-$(CUDA_VER)/include \
 	 -I /opt/nvidia/deepstream/deepstream-$(NVDS_VERSION)/sources/includes
 
+DEBUG?=0
+ifeq ($(DEBUG), 1)
+CFLAGS+= -DDEBUG
+endif
+
 GST_INSTALL_DIR?=/opt/nvidia/deepstream/deepstream-$(NVDS_VERSION)/lib/gst-plugins/
 LIB_INSTALL_DIR?=/opt/nvidia/deepstream/deepstream-$(NVDS_VERSION)/lib/
 
 LIBS := -shared -Wl,-no-undefined \
 	-L/usr/local/cuda-$(CUDA_VER)/lib64/ -lcudart -lcuda -ldl \
 	-lnppc -lnppig -lnpps -lnppicc -lnppidei \
-	-L$(LIB_INSTALL_DIR) -lnvdsgst_helper -lnvdsgst_meta -lnvds_meta -lnvbufsurface -lnvbufsurftransform\
+	-L$(LIB_INSTALL_DIR) -lnvdsgst_helper -lnvdsgst_meta -lnvds_meta -lnvbufsurface -lnvbufsurftransform -lnvds_utils\
 	-Wl,-rpath,$(LIB_INSTALL_DIR)
 
 OBJS:= $(SRCS:.cpp=.o)

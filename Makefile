@@ -1,5 +1,6 @@
 ################################################################################
-# Copyright (c) 2022, seieric
+# Copyright (c) 2022-2023, seieric
+# Forked from https://github.com/seieric/gst-dsobjectsmosaic.
 # This software is based on DeepStream DsExample Plugin by NVIDIA.
 #
 # Copyright (c) 2017-2022, NVIDIA CORPORATION.  All rights reserved.
